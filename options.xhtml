@@ -6458,14 +6458,15 @@ null or path</p>
 </dt>
 <dd>
 <p>The base directory for account maildir directories. May be a
-relative path, in which case it is relative the home
-directory.</p>
+relative path (e.g. the user setting this value as “MyMaildir”),
+in which case it is relative the home directory (e.g. resulting
+in “~/MyMaildir”).</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
 string</p>
 
 <p><span class="emphasis"><em>Default:</em></span>
-<code class="literal">&quot;$HOME/Maildir&quot;</code></p>
+<code class="literal">&quot;Maildir&quot;</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -8547,7 +8548,7 @@ typically requires performing some manual steps, such as data
 conversion or moving files.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
-one of “18.09”, “19.03”, “19.09”, “20.03”, “20.09”, “21.03”, “21.05”, “21.11”, “22.05”, “22.11”, “23.05”, “23.11”, “24.05”</p>
+one of “18.09”, “19.03”, “19.09”, “20.03”, “20.09”, “21.03”, “21.05”, “21.11”, “22.05”, “22.11”, “23.05”, “23.11”, “24.05”, “24.11”</p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -11218,6 +11219,36 @@ null or string</p>
 
 <p><span class="emphasis"><em>Example:</em></span>
 <code class="literal">&quot;--max-freed $((64 * 1024**3))&quot;</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/nix-gc.nix" target="_top">
+&lt;home-manager/modules/services/nix-gc.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-nix.gc.persistent"></a><a class="term" href="options.xhtml#opt-nix.gc.persistent"><code class="option">nix.gc.persistent</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>If true, the time when the service unit was last triggered is
+stored on disk. When the timer is activated, the service unit is
+triggered immediately if it would have been triggered at least once
+during the time when the timer was inactive.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">false</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -13977,7 +14008,7 @@ strings concatenated with “\n”</p>
 <p>Controlling how commands are saved on the history list.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
-list of (one of “erasedups”, “ignoredups”, “ignorespace”)</p>
+list of (one of “erasedups”, “ignoredups”, “ignorespace”, “ignoreboth”)</p>
 
 <p><span class="emphasis"><em>Default:</em></span>
 <code class="literal">[ ]</code></p>
@@ -27476,7 +27507,7 @@ boolean</p>
  </span>
 </dt>
 <dd>
-<p>Options to add to the <code class="filename">.jjconfig.toml</code> file. See
+<p>Options to add to the <code class="filename">config.toml</code> file. See
 <a class="link" href="https://github.com/martinvonz/jj/blob/main/docs/config.md"  target="_top">https://github.com/martinvonz/jj/blob/main/docs/config.md</a>
 for options.</p>
 
@@ -27488,11 +27519,10 @@ TOML value</p>
 
 <p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
   user = {
-    name = &quot;John Doe&quot;;
     email = &quot;jdoe@example.org&quot;;
+    name = &quot;John Doe&quot;;
   };
 }
-
 </code></pre>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
@@ -29504,6 +29534,30 @@ boolean</p>
 
 <p><span class="emphasis"><em>Example:</em></span>
 <code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/khal.nix" target="_top">
+&lt;home-manager/modules/programs/khal.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.khal.package"></a><a class="term" href="options.xhtml#opt-programs.khal.package"><code class="option">programs.khal.package</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>The khal package to use.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+package</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">pkgs.khal</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -48879,13 +48933,15 @@ TOML value</p>
 <code class="literal">{ }</code></p>
 
 <p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
-  assume_yes = true;
-  disable = [
-    &quot;flutter&quot;
-    &quot;node&quot;
-  ];
-  set_title = false;
-  cleanup = true;
+  misc = {
+    assume_yes = true;
+    disable = [
+      &quot;flutter&quot;
+      &quot;node&quot;
+    ];
+    set_title = false;
+    cleanup = true;
+  };
   commands = {
     &quot;Run garbage collection on Nix store&quot; = &quot;nix-collect-garbage&quot;;
   };
@@ -51618,6 +51674,100 @@ null or (attribute set of (package or string))</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-programs.yambar.enable"></a><a class="term" href="options.xhtml#opt-programs.yambar.enable"><code class="option">programs.yambar.enable</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable Yambar.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">false</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/yambar.nix" target="_top">
+&lt;home-manager/modules/programs/yambar.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.yambar.package"></a><a class="term" href="options.xhtml#opt-programs.yambar.package"><code class="option">programs.yambar.package</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>The yambar package to use.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+package</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">pkgs.yambar</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/yambar.nix" target="_top">
+&lt;home-manager/modules/programs/yambar.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.yambar.settings"></a><a class="term" href="options.xhtml#opt-programs.yambar.settings"><code class="option">programs.yambar.settings</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Configuration written to <code class="filename">$XDG_CONFIG_HOME/yambar/config.yml</code>.
+See <span class="citerefentry"><span class="refentrytitle">yambar</span>(5)</span> for options.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+YAML value</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">{ }</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">bar = {
+  location = &quot;top&quot;;
+  height = 26;
+  background = &quot;00000066&quot;;
+
+  right = [
+    {
+      clock.content = [
+        {
+          string.text = &quot;{time}&quot;;
+        }
+      ];
+    }
+  ];
+};
+
+</code></pre>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/yambar.nix" target="_top">
+&lt;home-manager/modules/programs/yambar.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-programs.yazi.enable"></a><a class="term" href="options.xhtml#opt-programs.yazi.enable"><code class="option">programs.yazi.enable</code>
   </a>
  </span>
@@ -51758,13 +51908,71 @@ boolean</p>
  </span>
 </dt>
 <dd>
-<p>Yazi package to install.</p>
+<p>The yazi package to use.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
 package</p>
 
 <p><span class="emphasis"><em>Default:</em></span>
 <code class="literal">pkgs.yazi</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/yazi.nix" target="_top">
+&lt;home-manager/modules/programs/yazi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.yazi.flavors"></a><a class="term" href="options.xhtml#opt-programs.yazi.flavors"><code class="option">programs.yazi.flavors</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Pre-made themes.</p><p>See https://yazi-rs.github.io/docs/flavors/overview/ for documentation.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+attribute set of (path or package)</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">{ }</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
+  foo = ./foo;
+  bar = pkgs.bar;
+}
+
+</code></pre>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/yazi.nix" target="_top">
+&lt;home-manager/modules/programs/yazi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.yazi.initLua"></a><a class="term" href="options.xhtml#opt-programs.yazi.initLua"><code class="option">programs.yazi.initLua</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>The init.lua for Yazi itself.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or path</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">./init.lua</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -51804,6 +52012,37 @@ TOML value</p>
     { exec = &quot;quit&quot;; on = [ &quot;q&quot; ]; }
     { exec = &quot;close&quot;; on = [ &quot;&lt;C-q&gt;&quot; ]; }
   ];
+}
+
+</code></pre>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/yazi.nix" target="_top">
+&lt;home-manager/modules/programs/yazi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.yazi.plugins"></a><a class="term" href="options.xhtml#opt-programs.yazi.plugins"><code class="option">programs.yazi.plugins</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Lua plugins.</p><p>See https://yazi-rs.github.io/docs/plugins/overview/ for documentation.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+attribute set of (path or package)</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">{ }</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
+  foo = ./foo;
+  bar = pkgs.bar;
 }
 
 </code></pre>
@@ -61821,24 +62060,26 @@ attribute set of (submodule)</p>
 <p><span class="emphasis"><em>Default:</em></span>
 <code class="literal">{ }</code></p>
 
-<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">undocked = {
-  outputs = [
-    {
-      criteria = &quot;eDP-1&quot;;
-    }
-  ];
-};
-docked = {
-  outputs = [
-    {
-      criteria = &quot;eDP-1&quot;;
-    }
-    {
-      criteria = &quot;Some Company ASDF 4242&quot;;
-      transform = &quot;90&quot;;
-    }
-  ];
-};
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
+  undocked = {
+    outputs = [
+      {
+        criteria = &quot;eDP-1&quot;;
+      }
+    ];
+  };
+  docked = {
+    outputs = [
+      {
+        criteria = &quot;eDP-1&quot;;
+      }
+      {
+        criteria = &quot;Some Company ASDF 4242&quot;;
+        transform = &quot;90&quot;;
+      }
+    ];
+  };
+}
 
 </code></pre>
 
@@ -62129,28 +62370,30 @@ list of attribute-tagged union</p>
 <p><span class="emphasis"><em>Default:</em></span>
 <code class="literal">[ ]</code></p>
 
-<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{ include = &quot;path/to/included/files&quot;; }
-{ output.criteria = &quot;eDP-1&quot;;
-  output.scale = 2;
-}
-{ profile.name = &quot;undocked&quot;;
-  profile.outputs = [
-    {
-      criteria = &quot;eDP-1&quot;;
-    }
-  ];
-}
-{ profile.name = &quot;docked&quot;;
-  profile.outputs = [
-    {
-      criteria = &quot;eDP-1&quot;;
-    }
-    {
-      criteria = &quot;Some Company ASDF 4242&quot;;
-      transform = &quot;90&quot;;
-    }
-  ];
-}
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">[
+  { include = &quot;path/to/included/files&quot;; }
+  { output.criteria = &quot;eDP-1&quot;;
+    output.scale = 2;
+  }
+  { profile.name = &quot;undocked&quot;;
+    profile.outputs = [
+      {
+        criteria = &quot;eDP-1&quot;;
+      }
+    ];
+  }
+  { profile.name = &quot;docked&quot;;
+    profile.outputs = [
+      {
+        criteria = &quot;eDP-1&quot;;
+      }
+      {
+        criteria = &quot;Some Company ASDF 4242&quot;;
+        transform = &quot;90&quot;;
+      }
+    ];
+  }
+]
 
 </code></pre>
 
@@ -62855,7 +63098,7 @@ TOML value</p>
 
 <p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
   submission = {
-    tokenFile = &quot;/run/secrets/listenbrainz-mpd&quot;;
+    token_file = &quot;/run/secrets/listenbrainz-mpd&quot;;
   };
 }
 </code></pre>
@@ -73800,6 +74043,60 @@ null or boolean</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-targets.darwin.defaults.NSGlobalDomain.ApplePressAndHoldEnabled"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults.NSGlobalDomain.ApplePressAndHoldEnabled"><code class="option">targets.darwin.defaults.NSGlobalDomain.ApplePressAndHoldEnabled</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Repeat a key when it is held down (false) or display the accented character selector (true)</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults.NSGlobalDomain.AppleShowAllExtensions"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults.NSGlobalDomain.AppleShowAllExtensions"><code class="option">targets.darwin.defaults.NSGlobalDomain.AppleShowAllExtensions</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Always show file extensions in Finder</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-targets.darwin.defaults.NSGlobalDomain.AppleTemperatureUnit"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults.NSGlobalDomain.AppleTemperatureUnit"><code class="option">targets.darwin.defaults.NSGlobalDomain.AppleTemperatureUnit</code>
   </a>
  </span>
@@ -73815,6 +74112,35 @@ null or one of “Celsius”, “Fahrenheit”</p>
 
 <p><span class="emphasis"><em>Example:</em></span>
 <code class="literal">&quot;Celsius&quot;</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults.NSGlobalDomain.KeyRepeat"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults.NSGlobalDomain.KeyRepeat"><code class="option">targets.darwin.defaults.NSGlobalDomain.KeyRepeat</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Interval between key repetitions when holding down a key. Lower is
+faster. When setting through the control panel, 2 is the lowest value,
+and 120 the highest.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or signed integer</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">2</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -74228,6 +74554,33 @@ null or boolean</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.dock_.autohide"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.dock_.autohide"><code class="option">targets.darwin.defaults.&quot;com.apple.dock&quot;.autohide</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Hide the Dock automatically</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-targets.darwin.defaults._com.apple.dock_.expose-group-apps"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.dock_.expose-group-apps"><code class="option">targets.darwin.defaults.&quot;com.apple.dock&quot;.expose-group-apps</code>
   </a>
  </span>
@@ -74243,6 +74596,33 @@ null or boolean</p>
 
 <p><span class="emphasis"><em>Example:</em></span>
 <code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.dock_.orientation"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.dock_.orientation"><code class="option">targets.darwin.defaults.&quot;com.apple.dock&quot;.orientation</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Position of the Dock on the screen</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or one of “left”, “bottom”, “right”</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">&quot;left&quot;</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -74309,6 +74689,114 @@ null or signed integer</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.finder_.AppleShowAllFiles"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.finder_.AppleShowAllFiles"><code class="option">targets.darwin.defaults.&quot;com.apple.finder&quot;.AppleShowAllFiles</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Show hidden files in Finder</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.finder_.FXRemoveOldTrashItems"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.finder_.FXRemoveOldTrashItems"><code class="option">targets.darwin.defaults.&quot;com.apple.finder&quot;.FXRemoveOldTrashItems</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Automatically delete items from trash after 30 days</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.finder_.ShowPathBar"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.finder_.ShowPathBar"><code class="option">targets.darwin.defaults.&quot;com.apple.finder&quot;.ShowPathBar</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Show the path bar at the bottom of a Finder window</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.finder_.ShowStatusBar"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.finder_.ShowStatusBar"><code class="option">targets.darwin.defaults.&quot;com.apple.finder&quot;.ShowStatusBar</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Show the status bar at the bottom of a Finder window</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-targets.darwin.defaults._com.apple.menuextra.battery_.ShowPercent"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.battery_.ShowPercent"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.battery&quot;.ShowPercent</code>
   </a>
  </span>
@@ -74325,6 +74813,191 @@ null or one of “YES”, “NO”</p>
 
 <p><span class="emphasis"><em>Example:</em></span>
 <code class="literal">&quot;NO&quot;</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.menuextra.clock_.IsAnalog"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.clock_.IsAnalog"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.clock&quot;.IsAnalog</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable showing an analog clock instead of a digital one.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.menuextra.clock_.Show24Hour"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.clock_.Show24Hour"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.clock&quot;.Show24Hour</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable showing a 24-hour clock, instead of a 12-hour clock.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowAMPM"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowAMPM"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.clock&quot;.ShowAMPM</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Show the AM/PM label. Useful if Show24Hour is false. Default is null.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowDate"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowDate"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.clock&quot;.ShowDate</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Show the full date. Default is null.</p><p>0 = Show the date
+1 = Don’t show
+2 = Don’t show</p><p>TODO: I don’t know what the difference is between 1 and 2.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or one of 0, 1, 2</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowDayOfMonth"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowDayOfMonth"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.clock&quot;.ShowDayOfMonth</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable showing the day of the month.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowDayOfWeek"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowDayOfWeek"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.clock&quot;.ShowDayOfWeek</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable showing the day of the week.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/targets/darwin/user-defaults/opts-allhosts.nix" target="_top">
+&lt;home-manager/modules/targets/darwin/user-defaults/opts-allhosts.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowSeconds"></a><a class="term" href="options.xhtml#opt-targets.darwin.defaults._com.apple.menuextra.clock_.ShowSeconds"><code class="option">targets.darwin.defaults.&quot;com.apple.menuextra.clock&quot;.ShowSeconds</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable showing the clock with second precision, instead of minutes.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
